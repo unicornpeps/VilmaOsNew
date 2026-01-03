@@ -16,6 +16,11 @@
           <p>Do the thing.</p>
         </div>
       </div>
+      <div class="mode-toggle" id="modeToggle">
+        <button class="chip active" data-mode="all">All</button>
+        <button class="chip" data-mode="work">Work</button>
+        <button class="chip" data-mode="private">Private</button>
+      </div>
       <nav class="nav">
         <button class="nav-item active" data-view="today">Today</button>
         <button class="nav-item" data-view="inbox">Inbox</button>
@@ -54,6 +59,11 @@
           <button class="energy-button" data-energy="red">Red</button>
         </div>
 
+        <div class="today-quick-add">
+          <input id="todayQuickInput" type="text" placeholder="Add a Today-only quick win..." />
+          <button class="secondary" id="todayQuickAddBtn">Add Quick Win</button>
+        </div>
+
         <div class="grid">
           <div class="panel">
             <div class="panel-header">
@@ -66,7 +76,7 @@
           <div class="panel">
             <div class="panel-header">
               <h3>Quick Wins</h3>
-              <span class="pill">5–15 min</span>
+              <span class="pill">Max 5</span>
             </div>
             <div id="quickWinsList" class="task-list"></div>
           </div>
@@ -138,7 +148,7 @@
         <div class="panel">
           <div class="panel-header">
             <h3>Routines</h3>
-            <span class="pill">Predefined</span>
+            <button class="ghost" id="resetRoutines">Reset to defaults</button>
           </div>
           <div id="routineList" class="routine-grid"></div>
         </div>
@@ -167,6 +177,14 @@
             <div>
               <h4>Categories</h4>
               <div id="categoryList" class="category-list"></div>
+              <div class="category-add">
+                <input id="newCategoryName" type="text" placeholder="New category name" />
+                <select id="newCategoryMode">
+                  <option value="work">Work</option>
+                  <option value="private">Private</option>
+                </select>
+                <button class="ghost" id="addCategoryBtn">Add</button>
+              </div>
             </div>
             <div>
               <h4>Import/Export</h4>
@@ -189,22 +207,9 @@
         <button class="ghost" id="focusClose">Exit</button>
       </div>
       <div id="focusTask" class="focus-task"></div>
-      <div class="timer">
-        <label>
-          Timer
-          <select id="timerSelect">
-            <option value="25">Pomodoro 25 min</option>
-            <option value="15">15 min</option>
-            <option value="5">5 min</option>
-            <option value="0">No timer</option>
-          </select>
-        </label>
-        <div id="timerDisplay" class="timer-display">25:00</div>
-      </div>
       <div class="modal-actions">
-        <button class="primary" id="timerStart">Start</button>
-        <button class="secondary" id="timerPause">Pause</button>
-        <button class="secondary" id="focusDone">Done</button>
+        <button class="primary" id="focusDone">Done</button>
+        <button class="secondary" id="focusPause">Pause</button>
         <button class="ghost" id="focusStuck">I'm stuck</button>
         <button class="ghost" id="focusSwitch">Switch to quick win</button>
       </div>
@@ -242,6 +247,30 @@
         <button class="primary" id="detailStart">Start Task</button>
       </div>
     </div>
+  </div>
+
+  <div id="timerWidget" class="timer-widget">
+    <div class="timer-header">
+      <strong>Global Timer</strong>
+      <button class="ghost" id="timerReset">Reset</button>
+    </div>
+    <div class="timer-display" id="timerDisplay">25:00</div>
+    <div class="timer-controls">
+      <select id="timerPreset">
+        <option value="5">5 min</option>
+        <option value="10">10 min</option>
+        <option value="15">15 min</option>
+        <option value="25" selected>25 min</option>
+        <option value="45">45 min</option>
+        <option value="60">60 min</option>
+      </select>
+      <button class="primary" id="timerStart">Start</button>
+      <button class="secondary" id="timerPause">Pause</button>
+    </div>
+    <label>
+      Link to task (optional)
+      <select id="timerLink"></select>
+    </label>
   </div>
 
   <input type="file" id="importFile" accept="application/json" hidden />
