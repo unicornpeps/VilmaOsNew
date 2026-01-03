@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vilma OS</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">VO</div>
+        <div>
+          <h1>Vilma OS</h1>
+          <p>Do the thing.</p>
+        </div>
+      </div>
+      <nav class="nav">
+        <button class="nav-item active" data-view="today">Today</button>
+        <button class="nav-item" data-view="inbox">Inbox</button>
+        <button class="nav-item" data-view="week">Week</button>
+        <button class="nav-item" data-view="routines">Routines</button>
+        <button class="nav-item" data-view="history">History</button>
+        <button class="nav-item" data-view="settings">Settings</button>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="energy-chip" id="energyChip">Energy: Yellow</div>
+        <div class="shortcut-hint">
+          <span>Shortcuts:</span>
+          <span><strong>N</strong> new inbox</span>
+          <span><strong>F</strong> focus now</span>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h2 id="viewTitle">Today</h2>
+          <p id="viewSubtitle">Know what to do in 10 seconds.</p>
+        </div>
+        <div class="topbar-actions">
+          <button class="ghost" id="exportBtn">Export</button>
+          <button class="ghost" id="importBtn">Import</button>
+        </div>
+      </header>
+
+      <section id="viewToday" class="view active">
+        <div class="energy-selector">
+          <span>Energy state</span>
+          <button class="energy-button" data-energy="green">Green</button>
+          <button class="energy-button active" data-energy="yellow">Yellow</button>
+          <button class="energy-button" data-energy="red">Red</button>
+        </div>
+
+        <div class="grid">
+          <div class="panel">
+            <div class="panel-header">
+              <h3>Top 3 Today</h3>
+              <span class="pill">Max 3</span>
+            </div>
+            <div id="topThreeList" class="task-list"></div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <h3>Quick Wins</h3>
+              <span class="pill">5–15 min</span>
+            </div>
+            <div id="quickWinsList" class="task-list"></div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <h3>Routines</h3>
+            </div>
+            <div id="todayRoutines" class="routine-list"></div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <h3>Done Today</h3>
+              <span class="pill" id="doneCount">0</span>
+            </div>
+            <div id="doneList" class="task-list done"></div>
+          </div>
+        </div>
+
+        <div class="today-actions">
+          <button class="primary" id="startNowBtn">Start Now</button>
+          <button class="secondary" id="shutdownBtn">Shutdown for today</button>
+        </div>
+      </section>
+
+      <section id="viewInbox" class="view">
+        <div class="panel">
+          <div class="panel-header">
+            <h3>Brain Dump</h3>
+            <span class="pill">Fast add</span>
+          </div>
+          <div class="inbox-input">
+            <input id="inboxInput" type="text" placeholder="Capture anything in one line..." />
+            <button class="primary" id="inboxAddBtn">Add</button>
+          </div>
+          <div id="inboxList" class="task-list"></div>
+        </div>
+      </section>
+
+      <section id="viewWeek" class="view">
+        <div class="week-header">
+          <div class="panel">
+            <h3>Weekly Themes</h3>
+            <div class="themes">
+              <input type="text" placeholder="Theme 1" class="theme-input" data-theme="0" />
+              <input type="text" placeholder="Theme 2" class="theme-input" data-theme="1" />
+              <input type="text" placeholder="Theme 3" class="theme-input" data-theme="2" />
+            </div>
+          </div>
+          <div class="panel">
+            <h3>Progress Target</h3>
+            <div class="progress-meta">
+              <span>Work hours target:</span>
+              <strong>4 hours / weekday</strong>
+            </div>
+            <label class="inline">
+              Logged hours this week
+              <input type="number" min="0" step="0.25" id="hoursLogged" />
+            </label>
+            <div id="progressIndicator" class="progress-indicator"></div>
+          </div>
+        </div>
+
+        <div class="week-grid" id="weekGrid"></div>
+      </section>
+
+      <section id="viewRoutines" class="view">
+        <div class="panel">
+          <div class="panel-header">
+            <h3>Routines</h3>
+            <span class="pill">Predefined</span>
+          </div>
+          <div id="routineList" class="routine-grid"></div>
+        </div>
+      </section>
+
+      <section id="viewHistory" class="view">
+        <div class="panel">
+          <div class="panel-header">
+            <h3>History & Insights</h3>
+          </div>
+          <div id="historySummary" class="history-summary"></div>
+          <div id="historyList" class="history-list"></div>
+        </div>
+      </section>
+
+      <section id="viewSettings" class="view">
+        <div class="panel">
+          <div class="panel-header">
+            <h3>Settings</h3>
+          </div>
+          <div class="settings-grid">
+            <div>
+              <h4>Theme</h4>
+              <button id="themeToggle" class="secondary">Toggle Light/Dark</button>
+            </div>
+            <div>
+              <h4>Categories</h4>
+              <div id="categoryList" class="category-list"></div>
+            </div>
+            <div>
+              <h4>Import/Export</h4>
+              <button class="ghost" id="settingsExport">Export JSON</button>
+              <label class="file-input">
+                Import JSON
+                <input type="file" id="settingsImport" accept="application/json" />
+              </label>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="focusModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Focus Mode</h3>
+        <button class="ghost" id="focusClose">Exit</button>
+      </div>
+      <div id="focusTask" class="focus-task"></div>
+      <div class="timer">
+        <label>
+          Timer
+          <select id="timerSelect">
+            <option value="25">Pomodoro 25 min</option>
+            <option value="15">15 min</option>
+            <option value="5">5 min</option>
+            <option value="0">No timer</option>
+          </select>
+        </label>
+        <div id="timerDisplay" class="timer-display">25:00</div>
+      </div>
+      <div class="modal-actions">
+        <button class="primary" id="timerStart">Start</button>
+        <button class="secondary" id="timerPause">Pause</button>
+        <button class="secondary" id="focusDone">Done</button>
+        <button class="ghost" id="focusStuck">I'm stuck</button>
+        <button class="ghost" id="focusSwitch">Switch to quick win</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="shutdownModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Shutdown Ritual</h3>
+        <button class="ghost" id="shutdownClose">Close</button>
+      </div>
+      <div class="shutdown-body">
+        <p>Review what you completed and migrate anything unfinished.</p>
+        <div id="shutdownDone" class="task-list done"></div>
+        <label>
+          Choose 1 task for tomorrow
+          <select id="tomorrowSelect"></select>
+        </label>
+      </div>
+      <div class="modal-actions">
+        <button class="primary" id="shutdownConfirm">Set for tomorrow</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="detailModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Task Detail</h3>
+        <button class="ghost" id="detailClose">Close</button>
+      </div>
+      <div id="detailBody" class="detail-body"></div>
+      <div class="modal-actions">
+        <button class="primary" id="detailStart">Start Task</button>
+      </div>
+    </div>
+  </div>
+
+  <input type="file" id="importFile" accept="application/json" hidden />
+  <script src="app.js"></script>
+</body>
+</html>
